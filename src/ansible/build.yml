@@ -1,0 +1,51 @@
+---
+- hosts: flightdeck_db
+  roles:
+    - ten7.flightdeck_base
+  tasks:
+    - name: Install needed software.
+      apk:
+        name: "{{ item }}"
+        state: present
+        update_cache: yes
+      loop:
+        - "py3-boto3"
+        - "py3-botocore"
+        - "py3-chardet"
+        - "py3-mysqlclient"
+        - "py3-urllib3"
+        - "py3-jmespath"
+        - "mariadb"
+        - "mariadb-client"
+      notify:
+        - clear apk cache
+    - name: Ensure key directories are owned by mysql
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: "mysql"
+        group: "mysql"
+        mode: "u=rwx,g=rwx,o=r"
+        recurse: yes
+      loop:
+        - "/var/lib/mysql"
+        - "/var/run/mysqld"
+        - "/etc/mysql"
+        - "/etc/my.cnf.d"
+    - name: Ensure key files are owned by mysql
+      file:
+        path: "{{ item }}"
+        state: file
+        owner: "mysql"
+        group: "mysql"
+      loop:
+        - "/etc/my.cnf"
+
+  handlers:
+    - name: clear apk cache
+      file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - "/tmp/*"
+        - "/var/cache/apk/*"
