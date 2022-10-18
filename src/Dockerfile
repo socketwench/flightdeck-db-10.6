@@ -1,4 +1,4 @@
-FROM alpine:3.15
+FROM alpine:3.16
 MAINTAINER tess@ten7.com
 
 # Update the package list and install Ansible.
@@ -13,7 +13,7 @@ COPY ansible.cfg /etc/ansible/ansible.cfg
 COPY ansible /ansible
 
 # Run the build.
-RUN ansible-galaxy install -fr /ansible/requirements.yml && \
+RUN ansible-galaxy install -f -r /ansible/requirements.yml && \
     ansible-playbook -i /etc/ansible/hosts -i /ansible/inventories/all.ini /ansible/build.yml
 
 # Configure the runtime environment of the container.
