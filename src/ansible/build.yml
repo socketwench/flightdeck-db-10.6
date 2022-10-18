@@ -17,6 +17,7 @@
         - "py3-jmespath"
         - "mariadb"
         - "mariadb-client"
+        - "mariadb-server-utils"
       notify:
         - clear apk cache
     - name: Ensure key directories are owned by mysql
