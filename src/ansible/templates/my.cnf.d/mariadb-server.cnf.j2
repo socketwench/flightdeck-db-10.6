@@ -44,6 +44,7 @@ log-bin={{ flightdeck_db.binaryLogging.status | default(false) | bool | ternary(
 log-basename={{ flightdeck_db.binaryLogging.baseName | default('mysqldb') }}
 binlog-format={{ flightdeck_db.binaryLogging.format | default('mixed') }}
 {% endif %}
+binlog_expire_logs_seconds={{ mysql_binlog_expire_logs_seconds | default('3600') }}
 
 # This group is only read by MariaDB-10.3 servers.
 # If you use the same .cnf file for MariaDB of different versions,
