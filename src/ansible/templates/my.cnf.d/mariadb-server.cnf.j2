@@ -34,15 +34,6 @@ bind-address=0.0.0.0
 # If you use the same .cnf file for MySQL and MariaDB,
 # you can put MariaDB-only options here
 [mariadb]
-{% if (flightdeck_db.serverId is defined) %}
-server_id={{ flightdeck_db.serverId }}
-{% elif (flightdeck_db.serverIdFromHostname | default(true)) %}
-server_id={{ ((lookup('env', 'HOSTNAME') | regex_findall('\-[0-9]+')) | default(['-0'], true) | last | regex_replace('\-+', '') | int) + 1 }}
-{% endif %}
-{% if (flightdeck_db.binaryLogging is defined) %}
-log_bin={{ flightdeck_db.binaryLogging.status | default(false) | bool | ternary('ON', 'OFF') }}
-binlog_format={{ flightdeck_db.binaryLogging.format | default('mixed') }}
-{% endif %}
 binlog_expire_logs_seconds={{ mysql_binlog_expire_logs_seconds | default('3600') }}
 
 # This group is only read by MariaDB-10.3 servers.
