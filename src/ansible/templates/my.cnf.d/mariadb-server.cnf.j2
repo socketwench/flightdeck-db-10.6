@@ -40,9 +40,8 @@ server_id={{ flightdeck_db.serverId }}
 server_id={{ ((lookup('env', 'HOSTNAME') | regex_findall('\-[0-9]+')) | default(['-0'], true) | last | regex_replace('\-+', '') | int) + 1 }}
 {% endif %}
 {% if (flightdeck_db.binaryLogging is defined) %}
-log-bin={{ flightdeck_db.binaryLogging.status | default(false) | bool | ternary('ON', 'OFF') }}
-log-basename={{ flightdeck_db.binaryLogging.baseName | default('mysqldb') }}
-binlog-format={{ flightdeck_db.binaryLogging.format | default('mixed') }}
+log_bin={{ flightdeck_db.binaryLogging.status | default(false) | bool | ternary('ON', 'OFF') }}
+binlog_format={{ flightdeck_db.binaryLogging.format | default('mixed') }}
 {% endif %}
 binlog_expire_logs_seconds={{ mysql_binlog_expire_logs_seconds | default('3600') }}
 
