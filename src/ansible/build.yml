@@ -1,7 +1,7 @@
 ---
 - hosts: flightdeck_db
   roles:
-    - ten7.flightdeck_base
+    - socketwench.flightdeck_base
   tasks:
     - name: Install needed software.
       apk:
@@ -9,11 +9,7 @@
         state: present
         update_cache: yes
       loop:
-        - "py3-boto3"
-        - "py3-botocore"
-        - "py3-chardet"
         - "py3-mysqlclient"
-        - "py3-urllib3"
         - "py3-jmespath"
         - "mariadb"
         - "mariadb-client"
